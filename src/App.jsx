@@ -11,7 +11,8 @@ export default class App extends Component {
   }
   // 子给父传参
   addTask = async (taskObj) => {
-    const { task } = this.state
+    var { task } = this.state
+    task = Array.from(task)
     const newTask = [taskObj, ...task]
     await this.setState({ task: newTask })
     await this.updateList()
@@ -20,7 +21,7 @@ export default class App extends Component {
 
     const { task } = this.state
     console.log(task)
-    axios.post('/update', task)
+    axios.post('api1/update', task)
       .then(function (response) {
         console.log(response);
       })
@@ -30,7 +31,7 @@ export default class App extends Component {
   }
 
   sendHistory=(taskObj)=>{
-    axios.post('/history', taskObj)
+    axios.post('api1/history', taskObj)
     .then(function (response) {
       console.log(response);
     })
@@ -85,7 +86,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/list`, { l: 1 }).then(
+    axios.get(`api1/list`, { l: 1 }).then(
       response => { this.setState({ task: response.data }) },
       error => { this.props.updateApp({ isLoading: false, err: error.message }) }
     )
