@@ -21,7 +21,7 @@ export default class App extends Component {
 
     const { task } = this.state
     console.log(task)
-    axios.post('api1/update', task)
+    axios.post('http://43.142.137.227:5000/update', task)
       .then(function (response) {
         console.log(response);
       })
@@ -31,7 +31,7 @@ export default class App extends Component {
   }
 
   sendHistory=(taskObj)=>{
-    axios.post('api1/history', taskObj)
+    axios.post('http://43.142.137.227:5000/history', taskObj)
     .then(function (response) {
       console.log(response);
     })
@@ -51,7 +51,8 @@ export default class App extends Component {
   }
 
   deleteTask = async (id) => {
-    const { task } = this.state
+    var { task } = this.state
+    task = Array.from(task)
     task.forEach((item)=>{
       if(item.id===id)
         this.sendHistory(item)
@@ -86,7 +87,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    axios.get(`api1/list`, { l: 1 }).then(
+    axios.get(`http://43.142.137.227:5000/list`, { l: 1 }).then(
       response => { this.setState({ task: response.data }) },
       error => { this.props.updateApp({ isLoading: false, err: error.message }) }
     )
